@@ -1,15 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 
 namespace MiniIT.ARKANOID
 {
-    public class GameFieldCreator : MonoBehaviour
+    public class GameField : MonoBehaviour
     {
         [SerializeField] private Transform      parentTransform;
         private int[,]                          bricks;
         private GameFieldSettings               GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
+
+        private List<Brick>                     _bricksOnField;
         
         private void Start()
         {
@@ -18,6 +19,13 @@ namespace MiniIT.ARKANOID
             CreateFieldFromRandomBricks();
         }
 
+        public void BrickDestroyed(Brick brick)
+        {
+            _bricksOnField.Remove(brick);
+            
+            //TODO: check bricks count
+        }
+        
         /// <summary>
         /// Create game field for array with random bricks positions
         /// </summary>
@@ -35,7 +43,8 @@ namespace MiniIT.ARKANOID
                             i * (brickLocalScale.y + GameFieldSettings.Spacing) - GameFieldSettings.Rows * (brickLocalScale.y + GameFieldSettings.Spacing) / 2.0f,
                             0);
                         
-                        Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
+                        var brick = Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
+                        _bricksOnField.Add(brick);
                     }
                 }
             }

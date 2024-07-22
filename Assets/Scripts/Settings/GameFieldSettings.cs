@@ -7,13 +7,13 @@ namespace MiniIT.ARKANOID.Settings
     {
         [SerializeField] private int                brickHealthRangeMin;
         [SerializeField] private int                brickHealthRangeMax;
-        [SerializeField] private GameObject         brickPrefab;
+        [SerializeField] private Brick              brickPrefab;
         [SerializeField] private int                rows;
         [SerializeField] private int                columns;
         [SerializeField] private float              spacing;
         
         public int                                  GetRandomHealth => Random.Range(brickHealthRangeMin, brickHealthRangeMax + 1);
-        public GameObject                           BrickPrefab => brickPrefab;
+        public Brick                                BrickPrefab => brickPrefab;
         public int                                  Rows => rows;
         public int                                  Columns => columns;
         public float                                Spacing => spacing;

@@ -1,16 +1,18 @@
 using System.Collections;
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
+using Zenject;
 
 namespace MiniIT.ARKANOID
 {
     public class Ball : MonoBehaviour
     {
+        [SerializeField] private Rigidbody2D            rigidbody2D;
+        [SerializeField] private PlatformController     platformController;
+        
         private bool                                    ballIsActive;
         private bool                                    respawned;
         private Vector3                                 ballPosition;
-        [SerializeField] private Rigidbody2D            rigidbody2D;
-        [SerializeField] private PlatformController     platformController;
         
         private void Start () 
         {
@@ -45,7 +47,8 @@ namespace MiniIT.ARKANOID
             Debug.Log($"Ball Collision {collision.gameObject.name}");
             if (collision.gameObject.CompareTag("Brick"))
             {
-                collision.gameObject.GetComponent<Brick>().GetDamage();
+                var brick = collision.gameObject.GetComponent<Brick>();
+                brick.GetDamage();
             }
 
             if (collision.gameObject.CompareTag("BottomWall"))

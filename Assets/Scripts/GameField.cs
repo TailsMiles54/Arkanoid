@@ -1,22 +1,45 @@
+using System;
 using System.Collections.Generic;
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
+using Zenject;
+using Random = UnityEngine.Random;
 
 namespace MiniIT.ARKANOID
 {
     public class GameField : MonoBehaviour
     {
         [SerializeField] private Transform      parentTransform;
+        
         private int[,]                          bricks;
+        private List<Brick>                     _bricksOnField;
+        
         private GameFieldSettings               GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
 
-        private List<Brick>                     _bricksOnField;
+        private GameController                  gameController;
+        
+        [Inject]
+        private void Construct(GameController gameController)
+        {
+            this.gameController = gameController;
+        }
         
         private void Start()
         {
-            //CreateBricksWithSpacingAroundTheParent();
-            CreateRandomBricks();
-            CreateFieldFromRandomBricks();
+            _bricksOnField = new List<Brick>();
+            switch (gameController.GameType)
+            {
+                case GameType.Full:
+                    CreateBricksWithSpacingAroundTheParent();
+                    break;
+                case GameType.Random:
+                    CreateRandomBricks();
+                    CreateFieldFromRandomBricks();
+                    break;
+                case GameType.Preset:
+                    //TODO: generate with preset
+                    break;
+            }
         }
 
         public void BrickDestroyed(Brick brick)
@@ -81,7 +104,7 @@ namespace MiniIT.ARKANOID
                 for (int j = 0; j < GameFieldSettings.Columns; j++)
                 {
                     Vector3 position = new Vector3(
-                        j * (brickLocalScale.x + GameFieldSettings.Spacing) - halfWidth,
+                        j * (brickLocalScale.x + GameFieldSettings.Spacing) - halfWidth + 0.15f,
                         i * (brickLocalScale.y + GameFieldSettings.Spacing) - halfHeight,
                         0);
                     

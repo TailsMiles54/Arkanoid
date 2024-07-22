@@ -6,28 +6,35 @@ namespace MiniIT.ARCANOID
 {
     public class PlatformController : MonoBehaviour
     {
-        public float            playerVelocity;
-        private Vector3         playerPosition;
-        private int             boundary = 2;
+        public float                                playerVelocity;
+        private Vector3                             playerPosition;
+        private int                                 boundary = 2;
+        [SerializeField] private Transform          ballStartPosition;
      
-        // используйте этот метод для инициализации
-        void Start () {
-            // получим начальную позицию платформы
+        
+        void Start () 
+        {
             playerPosition = gameObject.transform.position;
         }
 
-        // Update вызывается при отрисовке каждого кадра игры
-        void Update () {
-            // горизонтальное движение
-            playerPosition.x = Mathf.Clamp(playerPosition.x + Input.GetAxis ("Horizontal") * playerVelocity, -boundary, boundary);
- 
-            // выход из игры
-            if (Input.GetKeyDown(KeyCode.Escape)){
-                Application.Quit();
+        void Update ()
+        {
+            MoveToTouch();
+        }
+
+        private void MoveToTouch()
+        {
+            // Движение к позиции нажатия по x
+            if (Input.touches.Length > 0)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(Input.touches[0].position.x / Screen.width * 4 - 2,
+                    playerPosition.y), playerVelocity * Time.deltaTime);
             }
- 
-            // обновим позицию платформы
-            transform.position = playerPosition;
+        }
+
+        public Vector3 GetBallStartPosition()
+        {
+            return ballStartPosition.position;
         }
     }
 }

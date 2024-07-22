@@ -28,7 +28,7 @@ namespace MiniIT.ARCANOID
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    if (bricks[i, j] == 1)
+                    if (bricks[i, j] > 0)
                     {
                         Vector3 position = new Vector3(
                             j * (brickPrefab.transform.localScale.x + spacing) - columns * (brickPrefab.transform.localScale.x + spacing) / 2.0f + 0.15f,
@@ -49,7 +49,7 @@ namespace MiniIT.ARCANOID
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    int hasBrick = Random.Range(0, 2);
+                    int hasBrick = Random.Range(0, 3);
                     bricks[i, j] = hasBrick;
                 }
             }

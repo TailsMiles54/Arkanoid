@@ -1,57 +1,73 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace MiniIT.ARCANOID
 {
     public class Ball : MonoBehaviour
     {
         private bool                                    ballIsActive;
+        private bool                                    respawned;
         private Vector3                                 ballPosition;
-        private Vector2                                 ballInitialForce;
+        private Vector2                                 BallInitialForce => new Vector2(Random.Range(-50,50f),200f);
         [SerializeField] private Rigidbody2D            rigidbody2D;
-        [SerializeField] private GameObject             playerObject;
+        [SerializeField] private PlatformController     platformController;
         
-        private void Start () {
-            // создаем силу
-            ballInitialForce = new Vector2 (100.0f,300.0f);
-
-            // переводим в неактивное состояние
-            ballIsActive = false;
-
-            // запоминаем положение
-            ballPosition = transform.position;
+        private void Start () 
+        {
+            ballPosition = platformController.GetBallStartPosition();
         }
         
-        public void Update () {
-            
-            if (Input.GetButtonUp("Fire1")) 
+        public void Update () 
+        {
+            if (respawned)
             {
-                Debug.Log("Touched");
-                
+                transform.position = platformController.GetBallStartPosition();
+            }
+            
+            if (Input.touches.Length > 0) 
+            {
                 if (!ballIsActive)
                 {
-                    rigidbody2D.AddForce(ballInitialForce);
+                    rigidbody2D.AddForce(BallInitialForce);
                     ballIsActive = !ballIsActive;
                 }
 		
-                if (!ballIsActive && playerObject != null)
+                if (!ballIsActive && platformController != null)
                 {
-                    ballPosition.x = playerObject.transform.position.x;
+                    ballPosition.x = platformController.transform.position.x;
              
                     transform.position = ballPosition;
                 }
-                
-                if (ballIsActive && transform.position.y < -6) 
-                {
-                    ballIsActive = !ballIsActive;
-                    ballPosition.x = playerObject.transform.position.x;
-                    ballPosition.y = -4.2f;
-                    transform.position = ballPosition;
- 
-                    rigidbody2D.isKinematic = true;
-                }
             } 
+        }
+        void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log($"Ball Collision {collision.gameObject.name}");
+            if (collision.gameObject.CompareTag("Brick"))
+            {
+                collision.gameObject.GetComponent<Brick>().GetDamage();
+            }
+
+            if (collision.gameObject.CompareTag("BottomWall"))
+            {
+                StartCoroutine(RespawnBall());
+            }
+        }
+
+        private IEnumerator RespawnBall()
+        {
+            rigidbody2D.bodyType = RigidbodyType2D.Static;
+            transform.position = platformController.GetBallStartPosition();
+            respawned = true;
+            
+            yield return new WaitForSeconds(1.5f);
+            
+            respawned = false;
+            rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+            rigidbody2D.AddForce(BallInitialForce);
         }
     }
 }

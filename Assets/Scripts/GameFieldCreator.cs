@@ -1,19 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 
-namespace MiniIT.ARCANOID
+namespace MiniIT.ARKANOID
 {
     public class GameFieldCreator : MonoBehaviour
     {
-        [SerializeField] private GameObject     brickPrefab;
-        [SerializeField] private int            rows;
-        [SerializeField] private int            columns;
-        
-        [SerializeField] private float          spacing;
         [SerializeField] private Transform      parentTransform;
-        
         private int[,]                          bricks;
+        private GameFieldSettings               GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
         
         private void Start()
         {
@@ -22,32 +18,39 @@ namespace MiniIT.ARCANOID
             CreateFieldFromRandomBricks();
         }
 
+        /// <summary>
+        /// Create game field for array with random bricks positions
+        /// </summary>
         private void CreateFieldFromRandomBricks()
         {
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < GameFieldSettings.Rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < GameFieldSettings.Columns; j++)
                 {
                     if (bricks[i, j] > 0)
                     {
+                        var brickLocalScale = GameFieldSettings.BrickPrefab.transform.localScale;
                         Vector3 position = new Vector3(
-                            j * (brickPrefab.transform.localScale.x + spacing) - columns * (brickPrefab.transform.localScale.x + spacing) / 2.0f + 0.15f,
-                            i * (brickPrefab.transform.localScale.y + spacing) - rows * (brickPrefab.transform.localScale.y + spacing) / 2.0f,
+                            j * (brickLocalScale.x + GameFieldSettings.Spacing) - GameFieldSettings.Columns * (brickLocalScale.x + GameFieldSettings.Spacing) / 2.0f + 0.15f,
+                            i * (brickLocalScale.y + GameFieldSettings.Spacing) - GameFieldSettings.Rows * (brickLocalScale.y + GameFieldSettings.Spacing) / 2.0f,
                             0);
                         
-                        Instantiate(brickPrefab, position, Quaternion.identity, parentTransform);
+                        Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Generate array filled random bricks positions
+        /// </summary>
         private void CreateRandomBricks()
         {
-            bricks = new int[rows, columns];
+            bricks = new int[GameFieldSettings.Rows, GameFieldSettings.Columns];
             
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < GameFieldSettings.Rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < GameFieldSettings.Columns; j++)
                 {
                     int hasBrick = Random.Range(0, 3);
                     bricks[i, j] = hasBrick;
@@ -55,21 +58,25 @@ namespace MiniIT.ARCANOID
             }
         }
 
+        /// <summary>
+        /// Create full game field
+        /// </summary>
         private void CreateBricksWithSpacingAroundTheParent()
         {
-            float halfWidth = columns * (brickPrefab.transform.localScale.x + spacing) / 2.0f;
-            float halfHeight = rows * (brickPrefab.transform.localScale.y + spacing) / 2.0f;
+            var brickLocalScale = GameFieldSettings.BrickPrefab.transform.localScale;
+            float halfWidth = GameFieldSettings.Columns * (brickLocalScale.x + GameFieldSettings.Spacing) / 2.0f;
+            float halfHeight = GameFieldSettings.Rows * (brickLocalScale.y + GameFieldSettings.Spacing) / 2.0f;
             
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < GameFieldSettings.Rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < GameFieldSettings.Columns; j++)
                 {
                     Vector3 position = new Vector3(
-                        j * (brickPrefab.transform.localScale.x + spacing) - halfWidth,
-                        i * (brickPrefab.transform.localScale.y + spacing) - halfHeight,
+                        j * (brickLocalScale.x + GameFieldSettings.Spacing) - halfWidth,
+                        i * (brickLocalScale.y + GameFieldSettings.Spacing) - halfHeight,
                         0);
                     
-                    Instantiate(brickPrefab, position, Quaternion.identity, parentTransform);
+                    Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
                 }
             }
         }

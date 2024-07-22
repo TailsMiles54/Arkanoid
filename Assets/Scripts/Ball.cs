@@ -1,17 +1,14 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using MiniIT.ARKANOID.Settings;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace MiniIT.ARCANOID
+namespace MiniIT.ARKANOID
 {
     public class Ball : MonoBehaviour
     {
         private bool                                    ballIsActive;
         private bool                                    respawned;
         private Vector3                                 ballPosition;
-        private Vector2                                 BallInitialForce => new Vector2(Random.Range(-50,50f),200f);
         [SerializeField] private Rigidbody2D            rigidbody2D;
         [SerializeField] private PlatformController     platformController;
         
@@ -31,7 +28,7 @@ namespace MiniIT.ARCANOID
             {
                 if (!ballIsActive)
                 {
-                    rigidbody2D.AddForce(BallInitialForce);
+                    rigidbody2D.AddForce(SettingsProvider.Get<BallSettings>().StartBallVector);
                     ballIsActive = !ballIsActive;
                 }
 		
@@ -63,11 +60,11 @@ namespace MiniIT.ARCANOID
             transform.position = platformController.GetBallStartPosition();
             respawned = true;
             
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(SettingsProvider.Get<BallSettings>().BallRespawnTime);
             
             respawned = false;
             rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-            rigidbody2D.AddForce(BallInitialForce);
+            rigidbody2D.AddForce(SettingsProvider.Get<BallSettings>().StartBallVector);
         }
     }
 }

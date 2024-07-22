@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 
-namespace MiniIT.ARCANOID
+namespace MiniIT.ARKANOID
 {
     public class PlatformController : MonoBehaviour
     {
-        public float                                playerVelocity;
         private Vector3                             playerPosition;
-        private int                                 boundary = 2;
         [SerializeField] private Transform          ballStartPosition;
      
         
@@ -24,11 +21,10 @@ namespace MiniIT.ARCANOID
 
         private void MoveToTouch()
         {
-            // Движение к позиции нажатия по x
             if (Input.touches.Length > 0)
             {
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(Input.touches[0].position.x / Screen.width * 4 - 2,
-                    playerPosition.y), playerVelocity * Time.deltaTime);
+                    playerPosition.y), SettingsProvider.Get<PlayerSettings>().PlayerSpeed * Time.deltaTime);
             }
         }
 

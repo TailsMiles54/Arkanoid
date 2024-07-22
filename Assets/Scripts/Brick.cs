@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MiniIT.ARKANOID.Settings;
 using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace MiniIT.ARCANOID
+namespace MiniIT.ARKANOID
 {
     public class Brick : MonoBehaviour
     {
@@ -13,7 +12,7 @@ namespace MiniIT.ARCANOID
 
         private void Start()
         {
-            maxHealth = Random.Range(1, 11);
+            maxHealth = SettingsProvider.Get<GameFieldSettings>().GetRandomHealth;
             currentHealth = maxHealth;
             healthTMP.text = currentHealth.ToString();
         }

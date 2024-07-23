@@ -7,16 +7,15 @@ using Random = UnityEngine.Random;
 
 namespace MiniIT.ARKANOID
 {
-    public class GameField : MonoBehaviour
+    public class GameField : BaseGameField
     {
         [SerializeField] private Transform      parentTransform;
         
         private int[,]                          bricks;
-        private List<Brick>                     _bricksOnField;
+        private List<Brick>                     bricksOnField;
+        private GameController                  gameController;
         
         private GameFieldSettings               GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
-
-        private GameController                  gameController;
         
         [Inject]
         private void Construct(GameController gameController)
@@ -26,7 +25,7 @@ namespace MiniIT.ARKANOID
         
         private void Start()
         {
-            _bricksOnField = new List<Brick>();
+            bricksOnField = new List<Brick>();
             switch (gameController.GameType)
             {
                 case GameType.Full:
@@ -42,9 +41,9 @@ namespace MiniIT.ARKANOID
             }
         }
 
-        public void BrickDestroyed(Brick brick)
+        public override void BrickDestroyed(Brick brick)
         {
-            _bricksOnField.Remove(brick);
+            bricksOnField.Remove(brick);
             
             //TODO: check bricks count
         }
@@ -67,7 +66,7 @@ namespace MiniIT.ARKANOID
                             0);
                         
                         var brick = Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
-                        _bricksOnField.Add(brick);
+                        bricksOnField.Add(brick);
                     }
                 }
             }
@@ -111,6 +110,14 @@ namespace MiniIT.ARKANOID
                     Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
                 }
             }
+        }
+    }
+
+    public class BaseGameField : MonoBehaviour
+    {
+        public virtual void BrickDestroyed(Brick brick)
+        {
+            
         }
     }
 }

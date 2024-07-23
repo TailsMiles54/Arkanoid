@@ -74,3 +74,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4556a2a323dacca4394e3136a444d0f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonControllerPrefab: {fileID: 7110509373913524758, guid: 2add424ac0e9d7448b1a60bf26a743ed, type: 3}

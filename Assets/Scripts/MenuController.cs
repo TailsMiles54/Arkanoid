@@ -19,12 +19,14 @@ namespace MiniIT.ARKANOID
         private ObjectPool<MenuButton>            buttonsPool;
         private Sequence                          menuTransitionSequence;
         private GameController                    gameController;
+        private PhotonController                  photonController;
         private List<MenuButton>                  menuButtons;
 
         [Inject]
-        public void Construct(GameController gameController)
+        public void Construct(GameController gameController, PhotonController photonController)
         {
             this.gameController = gameController;
+            this.photonController = photonController;
         }
         
         public void Start()
@@ -58,7 +60,7 @@ namespace MiniIT.ARKANOID
             {
                 ChangeMenu(() =>
                 {
-                    ShowGameTypeMenu(() => SceneManager.LoadScene("MultiplayerGameScene"));
+                    ShowGameTypeMenu(() => photonController.StartGame());
                 });
             });
             buttonsPool.Get().Setup("Settings", () =>

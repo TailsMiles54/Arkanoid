@@ -8,12 +8,22 @@ namespace MiniIT.ARKANOID.Settings
     public class PrefabSettings : ScriptableObject
     {
         [SerializeField] private List<MonoBehaviour>              prefabs;
+        [SerializeField] private List<MonoBehaviour>              popups;
 
         public T Get<T>() where T : MonoBehaviour
         {
             T result = null;
             
             prefabs.First(x => x.TryGetComponent(out result));
+
+            return result;
+        }
+
+        public T GetPopup<T>() where T : MonoBehaviour
+        {
+            T result = null;
+            
+            popups.First(x => x.TryGetComponent(out result));
 
             return result;
         }

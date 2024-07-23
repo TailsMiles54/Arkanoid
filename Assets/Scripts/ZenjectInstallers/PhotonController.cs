@@ -1,113 +1,183 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fusion;
+using Fusion.Photon.Realtime;
 using Fusion.Sockets;
+using MiniIT.ARKANOID;
 using UnityEngine;
-using Zenject;
+using UnityEngine.SceneManagement;
 
-public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks, IInitializable
+public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
 {
-#region IInitializable
-    public void Initialize()
+    [SerializeField] private NetworkPrefabRef               playerPrefab;
+    
+    private NetworkRunner                                   runner;
+    private Dictionary<PlayerRef, NetworkObject>            spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+    
+    public async void StartGame()
     {
-        
+        runner = gameObject.AddComponent<NetworkRunner>();
+        runner.ProvideInput = true;
+    
+        var scene = SceneRef.FromIndex(2);
+        var sceneInfo = new NetworkSceneInfo();
+        if (scene.IsValid) {
+            sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
+        }
+
+        if (!gameObject.TryGetComponent(out NetworkSceneManagerDefault networkSceneManagerDefault))
+            networkSceneManagerDefault = gameObject.AddComponent<NetworkSceneManagerDefault>();
+    
+        await runner.StartGame(new StartGameArgs()
+        {
+            GameMode = GameMode.AutoHostOrClient,
+            PlayerCount = 2,
+            SceneManager = networkSceneManagerDefault,
+            MatchmakingMode = MatchmakingMode.FillRoom,
+        });
     }
-#endregion
+
+    public async void SpawnPlayers(Vector3 position1, Vector3 position2)
+    {
+        foreach (var player in runner.ActivePlayers)
+        {
+            if(runner.IsServer)
+            {
+                Vector3 spawnPosition = new Vector3();
+
+                if (player.AsIndex == 0)
+                {
+                    spawnPosition = position1;
+                }
+                else
+                {
+                    spawnPosition = position2;
+                }
+                
+                NetworkObject networkPlayerObject = await runner.SpawnAsync(playerPrefab, spawnPosition, Quaternion.identity, player);
+                
+                spawnedCharacters.Add(player, networkPlayerObject);
+                runner.SetPlayerObject(player, networkPlayerObject);
+            }
+        }
+    }
     
 #region INetworkRunnerCallbacks
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        throw new NotImplementedException();
+        if (runner.IsServer)
+        {
+            if(runner.ActivePlayers.Count() == 2)
+                runner.LoadScene(SceneRef.FromIndex(2), LoadSceneMode.Single, setActiveOnLoad:true);
+        }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        throw new NotImplementedException();
+        if (spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+        {
+            runner.Despawn(networkObject);
+            spawnedCharacters.Remove(player);
+        }
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        throw new NotImplementedException();
+        var data = new NetworkInputData();
+
+        if (Input.touches.Length > 0)
+        {
+            data.direction = Input.touches[0].position;
+            input.Set(data);
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            data.direction = Input.mousePosition;
+            input.Set(data);
+        }
+
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        
     }
 #endregion
 }

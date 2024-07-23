@@ -26,7 +26,7 @@ namespace MiniIT.ARKANOID
                 transform.position = platformController.GetBallStartPosition();
             }
             
-            if (Input.touches.Length > 0) 
+            if (Input.touches.Length > 0 || Input.GetMouseButtonDown(0)) 
             {
                 if (!ballIsActive)
                 {
@@ -40,7 +40,7 @@ namespace MiniIT.ARKANOID
              
                     transform.position = ballPosition;
                 }
-            } 
+            }
         }
         void OnCollisionEnter2D(Collision2D collision)
         {

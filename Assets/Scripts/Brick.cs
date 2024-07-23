@@ -11,11 +11,11 @@ namespace MiniIT.ARKANOID
         
         private int                             maxHealth;
         private int                             currentHealth;
-        private GameUIController                gameUIController;
-        private GameField                       gameField;
+        private BaseGameUIController            gameUIController;
+        private BaseGameField                   gameField;
         
         [Inject]
-        public void Construct(GameUIController gameUIController, GameField gameField)
+        public void Construct(BaseGameUIController gameUIController, BaseGameField gameField)
         {
             this.gameUIController = gameUIController;
             this.gameField = gameField;

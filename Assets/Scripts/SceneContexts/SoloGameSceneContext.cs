@@ -7,13 +7,13 @@ namespace MiniIT.ARKANOID
 {
     public class SoloGameSceneContext : MonoInstaller
     {
-        [SerializeField] private GameUIController            scoreController;
-        [SerializeField] private GameField                  gameField;
+        [SerializeField] private BaseGameUIController        scoreController;
+        [SerializeField] private BaseGameField               gameField;
         
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<GameUIController>().FromInstance(scoreController).AsCached().NonLazy();
-            Container.BindInterfacesAndSelfTo<GameField>().FromInstance(gameField).AsCached().NonLazy();
+            Container.BindInterfacesAndSelfTo<BaseGameUIController>().FromInstance(scoreController).AsCached().NonLazy();
+            Container.BindInterfacesAndSelfTo<BaseGameField>().FromInstance(gameField).AsCached().NonLazy();
         }
     }
 }

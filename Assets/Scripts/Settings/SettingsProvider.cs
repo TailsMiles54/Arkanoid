@@ -8,8 +8,8 @@ namespace MiniIT.ARKANOID
     [CreateAssetMenu(menuName = "Arkanoid/SettingsProvider", fileName = "SettingsProvider", order = 0)]
     public class SettingsProvider : ScriptableObject
     {
-        [SerializeField] private List<ScriptableObject>         _settingsList;
-        private static SettingsProvider                         _settingsProvider;
+        [SerializeField] private List<ScriptableObject>         settingsList;
+        private static SettingsProvider                         settingsProvider;
 
         /// <summary>
         /// Get settings for T
@@ -18,12 +18,12 @@ namespace MiniIT.ARKANOID
         /// <returns></returns>
         public static T Get<T>() where T : ScriptableObject
         {
-            if (_settingsProvider == null)
+            if (settingsProvider == null)
             {
-                _settingsProvider = Resources.Load<SettingsProvider>("SettingsProvider");
+                settingsProvider = Resources.Load<SettingsProvider>("SettingsProvider");
             }
         
-            return (T)_settingsProvider._settingsList.First(x => x is T);
+            return (T)settingsProvider.settingsList.First(x => x is T);
         }
     }
 }

@@ -17,6 +17,8 @@ MonoBehaviour:
   brickPrefab: {fileID: -7894263028730270791, guid: d1ae4fd434d3dbd458011906184dc3a3, type: 3}
   networkBrickPrefab:
     RawGuidValue: 80432b4ed397e7f41a373d24bca73f28
+  networkBallPrefab:
+    RawGuidValue: cb4abbb5be9e20940a740673347107ae
   rows: 19
   columns: 19
   spacing: 0.1

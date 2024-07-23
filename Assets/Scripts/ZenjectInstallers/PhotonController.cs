@@ -5,6 +5,7 @@ using Fusion;
 using Fusion.Photon.Realtime;
 using Fusion.Sockets;
 using MiniIT.ARKANOID;
+using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,7 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject>            spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     
     public NetworkRunner                                    Runner => runner;
+    private bool                                            clicked;
     
     public async void StartGame()
     {
@@ -48,7 +50,8 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
             {
                 Vector3 spawnPosition = new Vector3();
 
-                if (player.AsIndex == 0)
+                Debug.Log(player.AsIndex);
+                if (player.AsIndex == 1)
                 {
                     spawnPosition = position1;
                 }
@@ -57,15 +60,29 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
                     spawnPosition = position2;
                 }
                 
-                NetworkObject networkPlayerObject = await runner.SpawnAsync(playerPrefab, spawnPosition, Quaternion.identity, player);
+                NetworkObject networkPlayerObject = await runner.SpawnAsync(playerPrefab, spawnPosition, Quaternion.identity, player, async (runner, o) =>
+                {
+                    var platform = o.GetComponent<MultiplayerPlatformController>();
+                    
+                    await runner.SpawnAsync(SettingsProvider.Get<GameFieldSettings>().NetworkBallPrefab, platform.BallStartPosition, Quaternion.identity, player, async (runner, ball) =>
+                    {
+                        ball.GetComponent<NetworkedBall>().Setup(platform);
+                    });
+                });
+                
                 
                 spawnedCharacters.Add(player, networkPlayerObject);
                 runner.SetPlayerObject(player, networkPlayerObject);
             }
         }
     }
-    
-#region INetworkRunnerCallbacks
+
+    public void Update()
+    {
+        clicked = Input.touches.Length > 0 || Input.GetMouseButton(0);
+    }
+
+    #region INetworkRunnerCallbacks
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
         
@@ -110,6 +127,9 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
             input.Set(data);
         }
 
+        data.buttons.Set(NetworkInputData.button, clicked);
+
+        input.Set(data);
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)

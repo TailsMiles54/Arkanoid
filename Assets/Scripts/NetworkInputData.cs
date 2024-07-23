@@ -5,6 +5,9 @@ namespace MiniIT.ARKANOID
 {
     public struct NetworkInputData : INetworkInput
     {
-        public Vector3 direction;
+        public const byte           button = 1;
+
+        public NetworkButtons       buttons;
+        public Vector3              direction;
     }
 }

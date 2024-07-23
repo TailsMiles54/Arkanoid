@@ -10,6 +10,7 @@ namespace MiniIT.ARKANOID.Settings
         [SerializeField] private int                brickHealthRangeMax;
         [SerializeField] private Brick              brickPrefab;
         [SerializeField] private NetworkPrefabRef   networkBrickPrefab;
+        [SerializeField] private NetworkPrefabRef   networkBallPrefab;
         [SerializeField] private int                rows;
         [SerializeField] private int                columns;
         [SerializeField] private float              spacing;
@@ -17,6 +18,7 @@ namespace MiniIT.ARKANOID.Settings
         public int                                  GetRandomHealth => Random.Range(brickHealthRangeMin, brickHealthRangeMax + 1);
         public Brick                                BrickPrefab => brickPrefab;
         public NetworkPrefabRef                     NetworkBrickPrefab => networkBrickPrefab;
+        public NetworkPrefabRef                     NetworkBallPrefab => networkBallPrefab;
         public int                                  Rows => rows;
         public int                                  Columns => columns;
         public float                                Spacing => spacing;

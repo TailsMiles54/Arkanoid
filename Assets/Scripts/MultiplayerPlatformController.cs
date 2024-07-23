@@ -6,8 +6,10 @@ namespace MiniIT.ARKANOID
 {
     public class MultiplayerPlatformController : NetworkBehaviour
     {
-        private Vector3                             playerPosition;
         [SerializeField] private Transform          ballStartPosition;
+        private Vector3                             playerPosition;
+
+        public Vector3                              BallStartPosition => ballStartPosition.position;
      
         void Start () 
         {
@@ -26,13 +28,12 @@ namespace MiniIT.ARKANOID
         {
             if (GetInput(out NetworkInputData data))
             {
-                //data.direction.Normalize();
-                
-                transform.position = Vector2.MoveTowards(transform.position,
-                    new Vector2(data.direction.x / Screen.width * 4 - 2,
-                    playerPosition.y), SettingsProvider.Get<PlayerSettings>().PlayerSpeed * Time.deltaTime);
-                
-                //_cc.Move(5*data.direction*Runner.DeltaTime);
+                if(data.direction != Vector3.zero)
+                {
+                    transform.position = Vector2.MoveTowards(transform.position,
+                        new Vector2(data.direction.x / Screen.width * 4 - 2,
+                            playerPosition.y), SettingsProvider.Get<PlayerSettings>().PlayerSpeed * Time.deltaTime);
+                }
             }
         }
 

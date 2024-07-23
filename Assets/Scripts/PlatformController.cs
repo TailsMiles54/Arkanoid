@@ -8,7 +8,6 @@ namespace MiniIT.ARKANOID
         private Vector3                             playerPosition;
         [SerializeField] private Transform          ballStartPosition;
      
-        
         void Start () 
         {
             playerPosition = gameObject.transform.position;

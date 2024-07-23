@@ -11,14 +11,14 @@ namespace MiniIT.ARKANOID
         
         private int                             maxHealth;
         private int                             currentHealth;
-        private ScoreController                 scoreController;
+        private GameUIController                gameUIController;
         private GameField                       gameField;
         
         [Inject]
-        public void Construct(ScoreController injectScoreController, GameField injectGameField)
+        public void Construct(GameUIController gameUIController, GameField gameField)
         {
-            scoreController = injectScoreController;
-            gameField = injectGameField;
+            this.gameUIController = gameUIController;
+            this.gameField = gameField;
         }
         
         private void Start()
@@ -35,7 +35,7 @@ namespace MiniIT.ARKANOID
 
             if (currentHealth <= 0)
             {
-                scoreController.AddScore(maxHealth);
+                gameUIController.AddScore(maxHealth);
                 gameField.BrickDestroyed(this);
                 Destroy(gameObject);
             }

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 7831407759580844292}
   - component: {fileID: -7372091754694180711}
   - component: {fileID: 4564162902317874810}
+  - component: {fileID: -6056211922476389164}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -197,6 +198,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 4564162902317874810}
+  - {fileID: -6056211922476389164}
 --- !u!114 &4564162902317874810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,3 +212,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballStartPosition: {fileID: 3890066434188257413}
+--- !u!114 &-6056211922476389164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6203090851320213852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

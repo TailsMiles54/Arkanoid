@@ -15,6 +15,8 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner                                   runner;
     private Dictionary<PlayerRef, NetworkObject>            spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     
+    public NetworkRunner                                    Runner => runner;
+    
     public async void StartGame()
     {
         runner = gameObject.AddComponent<NetworkRunner>();

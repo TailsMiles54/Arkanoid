@@ -7,6 +7,7 @@ using Fusion.Sockets;
 using MiniIT.ARKANOID;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -14,6 +15,13 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
     
     private NetworkRunner                                   runner;
     private Dictionary<PlayerRef, NetworkObject>            spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+    private GameController                                  gameController;
+    
+    [Inject]
+    public void Construct(GameController gameController)
+    {
+        this.gameController = gameController;
+    }
     
     public async void StartGame()
     {
@@ -32,6 +40,10 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
         await runner.StartGame(new StartGameArgs()
         {
             GameMode = GameMode.AutoHostOrClient,
+            SessionProperties = new Dictionary<string, SessionProperty>()
+            {
+                {"gameType", gameController.GameType.ToString()}
+            },
             PlayerCount = 2,
             SceneManager = networkSceneManagerDefault,
             MatchmakingMode = MatchmakingMode.FillRoom,

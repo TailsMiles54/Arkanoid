@@ -15,6 +15,7 @@ namespace MiniIT.ARKANOID
     {
         [SerializeField] private Transform        buttonsParent;
         [SerializeField] private GameObject       uiBlocker;
+        [SerializeField] private WaitEnemyPopup   waitEnemyPopup;
         
         private ObjectPool<MenuButton>            buttonsPool;
         private Sequence                          menuTransitionSequence;
@@ -53,14 +54,23 @@ namespace MiniIT.ARKANOID
             {
                 ChangeMenu(() =>
                 {
-                    ShowGameTypeMenu(() => SceneManager.LoadScene("SoloGameScene"));
+                    ShowGameTypeMenu((gameType) =>
+                    {
+                        gameController.ChangeGameType(gameType);
+                        SceneManager.LoadScene("SoloGameScene");
+                    });
                 });
             });
             buttonsPool.Get().Setup("Play online", () =>
             {
                 ChangeMenu(() =>
                 {
-                    ShowGameTypeMenu(() => photonController.StartGame());
+                    ShowGameTypeMenu((gameType) =>
+                    {
+                        waitEnemyPopup.ShowWaitEnemyPopup(gameType);
+                        gameController.ChangeGameType(gameType);
+                        photonController.StartGame();
+                    });
                 });
             });
             buttonsPool.Get().Setup("Settings", () =>
@@ -70,22 +80,19 @@ namespace MiniIT.ARKANOID
             buttonsPool.Get().Setup("Exit", Application.Quit);
         }
 
-        private void ShowGameTypeMenu(Action action)
+        private void ShowGameTypeMenu(Action<GameType> action)
         {
             buttonsPool.Get().Setup("Full field", () =>
             {
-                gameController.ChangeGameType(GameType.Full);
-                action?.Invoke();
+                action?.Invoke(GameType.Full);
             });
             buttonsPool.Get().Setup("Random", () =>
             {
-                gameController.ChangeGameType(GameType.Random);
-                action?.Invoke();
+                action?.Invoke(GameType.Random);
             });
             buttonsPool.Get().Setup("Preset", () =>
             {
-                gameController.ChangeGameType(GameType.Preset);
-                action?.Invoke();
+                action?.Invoke(GameType.Preset);
             });
             buttonsPool.Get().Setup("Back", () =>
             {

@@ -16,14 +16,6 @@ namespace MiniIT.ARKANOID
             playerPosition = gameObject.transform.position;
         }
 
-        void Update ()
-        {
-            if (HasStateAuthority)
-            {
-                MoveToTouch();
-            }
-        }
-
         public override void FixedUpdateNetwork()
         {
             if (GetInput(out NetworkInputData data))
@@ -34,20 +26,6 @@ namespace MiniIT.ARKANOID
                         new Vector2(data.direction.x / Screen.width * 4 - 2,
                             playerPosition.y), SettingsProvider.Get<PlayerSettings>().PlayerSpeed * Time.deltaTime);
                 }
-            }
-        }
-
-        private void MoveToTouch()
-        {
-            if (Input.touches.Length > 0)
-            {
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(Input.touches[0].position.x / Screen.width * 4 - 2,
-                    playerPosition.y), SettingsProvider.Get<PlayerSettings>().PlayerSpeed * Time.deltaTime);
-            }
-            else if (Input.GetMouseButton(0))
-            {
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(Input.mousePosition.x / Screen.width * 4 - 2,
-                    playerPosition.y), SettingsProvider.Get<PlayerSettings>().PlayerSpeed * Time.deltaTime);
             }
         }
 

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Fusion;
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 using Zenject;
@@ -28,6 +30,10 @@ namespace MiniIT.ARKANOID
         private void Start()
         {
             bricksOnField = new List<Brick>();
+            
+            if(!photonController.Runner.IsServer)
+                return;
+            
             switch (gameController.GameType)
             {
                 case GameType.Full:
@@ -55,7 +61,7 @@ namespace MiniIT.ARKANOID
         /// <summary>
         /// Create game field for array with random bricks positions
         /// </summary>
-        private void CreateFieldFromRandomBricks()
+        private async void CreateFieldFromRandomBricks()
         {
             for (int i = 0; i < GameFieldSettings.Rows; i++)
             {
@@ -68,9 +74,18 @@ namespace MiniIT.ARKANOID
                             j * (brickLocalScale.x + GameFieldSettings.Spacing) - GameFieldSettings.Columns * (brickLocalScale.x + GameFieldSettings.Spacing) / 2.0f + 0.15f,
                             i * (brickLocalScale.y + GameFieldSettings.Spacing) - GameFieldSettings.Rows * (brickLocalScale.y + GameFieldSettings.Spacing) / 2.0f,
                             0);
+
+                        var runner = photonController.Runner;
                         
-                        var brick = Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
-                        bricksOnField.Add(brick);
+                        var obj = await runner.SpawnAsync(GameFieldSettings.NetworkBrickPrefab,
+                            position, Quaternion.identity, runner.ActivePlayers.First(), (runner, o) =>
+                            {
+                                bricksOnField.Add(o.GetComponent<Brick>());
+                                o.gameObject.transform.SetParent(parentTransform);
+                            });
+                        
+                        // var brick = Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
+                        // bricksOnField.Add(brick);
                     }
                 }
             }
@@ -96,7 +111,7 @@ namespace MiniIT.ARKANOID
         /// <summary>
         /// Create full game field
         /// </summary>
-        private void CreateBricksWithSpacingAroundTheParent()
+        private async void CreateBricksWithSpacingAroundTheParent()
         {
             var brickLocalScale = GameFieldSettings.BrickPrefab.transform.localScale;
             float halfWidth = GameFieldSettings.Columns * (brickLocalScale.x + GameFieldSettings.Spacing) / 2.0f;
@@ -111,7 +126,16 @@ namespace MiniIT.ARKANOID
                         i * (brickLocalScale.y + GameFieldSettings.Spacing) - halfHeight,
                         0);
                     
-                    Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
+                    var runner = photonController.Runner;
+                        
+                    await runner.SpawnAsync(GameFieldSettings.NetworkBrickPrefab,
+                        position, Quaternion.identity, runner.ActivePlayers.First(), (runner, o) =>
+                        {
+                            bricksOnField.Add(o.GetComponent<Brick>());
+                            o.gameObject.transform.SetParent(parentTransform);
+                        });
+
+                    // Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
                 }
             }
         }

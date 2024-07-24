@@ -12,24 +12,24 @@ namespace MiniIT.ARKANOID
         [SerializeField] private CanvasGroup      canvasGroup;
         [SerializeField] private TMP_Text         contentTMP;
 
-        private PhotonController                  photonController;
+        private PhotonService                     photonService;
 
         [Inject]
-        public void Construct(PhotonController photonController)
+        public void Construct(PhotonService photonService)
         {
-            this.photonController = photonController;
+            this.photonService = photonService;
         }
 
         public void ShowWaitEnemyPopup(GameType gameType)
         {
             canvasGroup.blocksRaycasts = true;
-            contentTMP.text = $"Wait enemy for {gameType}";
+            contentTMP.text = $"Wait enemy for {gameType} game type";
             canvasGroup.DOFade(1f, 0.3f);
         }
         
         public void HideWaitEnemyPopup()
         {
-            photonController.Runner.Shutdown();
+            photonService.PhotonController.Runner.Shutdown();
             canvasGroup.DOFade(0f, 0.3f).OnComplete(() => 
             {
                 canvasGroup.blocksRaycasts = false;

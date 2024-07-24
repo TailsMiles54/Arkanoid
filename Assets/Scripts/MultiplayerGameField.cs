@@ -16,22 +16,22 @@ namespace MiniIT.ARKANOID
         private int[,]                          bricks;
         private List<Brick>                     bricksOnField;
         private GameController                  gameController;
-        private PhotonController                photonController;
+        private PhotonService                   photonService;
         
         private GameFieldSettings               GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
         
         [Inject]
-        private void Construct(GameController gameController, PhotonController photonController)
+        private void Construct(GameController gameController, PhotonService photonService)
         {
             this.gameController = gameController;
-            this.photonController = photonController;
+            this.photonService = photonService;
         }
         
         private void Start()
         {
             bricksOnField = new List<Brick>();
             
-            if(!photonController.Runner.IsServer)
+            if(!photonService.PhotonController.Runner.IsServer)
                 return;
             
             switch (gameController.GameType)
@@ -48,7 +48,7 @@ namespace MiniIT.ARKANOID
                     break;
             }
 
-            photonController.SpawnPlayers(player1SpawnPosition, player2SpawnPosition);
+            photonService.PhotonController.SpawnPlayers(player1SpawnPosition, player2SpawnPosition);
         }
 
         public override void BrickDestroyed(Brick brick)
@@ -75,7 +75,7 @@ namespace MiniIT.ARKANOID
                             i * (brickLocalScale.y + GameFieldSettings.Spacing) - GameFieldSettings.Rows * (brickLocalScale.y + GameFieldSettings.Spacing) / 2.0f,
                             0);
 
-                        var runner = photonController.Runner;
+                        var runner = photonService.PhotonController.Runner;
                         
                         var obj = await runner.SpawnAsync(GameFieldSettings.NetworkBrickPrefab,
                             position, Quaternion.identity, runner.ActivePlayers.First(), (runner, o) =>
@@ -126,7 +126,7 @@ namespace MiniIT.ARKANOID
                         i * (brickLocalScale.y + GameFieldSettings.Spacing) - halfHeight,
                         0);
                     
-                    var runner = photonController.Runner;
+                    var runner = photonService.PhotonController.Runner;
                         
                     await runner.SpawnAsync(GameFieldSettings.NetworkBrickPrefab,
                         position, Quaternion.identity, runner.ActivePlayers.First(), (runner, o) =>

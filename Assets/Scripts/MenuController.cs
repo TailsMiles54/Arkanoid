@@ -20,14 +20,14 @@ namespace MiniIT.ARKANOID
         private ObjectPool<MenuButton>            buttonsPool;
         private Sequence                          menuTransitionSequence;
         private GameController                    gameController;
-        private PhotonController                  photonController;
+        private PhotonService                     photonService;
         private List<MenuButton>                  menuButtons;
 
         [Inject]
-        public void Construct(GameController gameController, PhotonController photonController)
+        public void Construct(GameController gameController, PhotonService photonService)
         {
+            this.photonService = photonService;
             this.gameController = gameController;
-            this.photonController = photonController;
         }
         
         public void Start()
@@ -69,7 +69,8 @@ namespace MiniIT.ARKANOID
                     {
                         waitEnemyPopup.ShowWaitEnemyPopup(gameType);
                         gameController.ChangeGameType(gameType);
-                        photonController.StartGame();
+                        photonService.NewPhotonManager();
+                        photonService.PhotonController.StartGame();
                     });
                 });
             });

@@ -18,8 +18,7 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject>            spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     private GameController                                  gameController;
     
-    [Inject]
-    public void Construct(GameController gameController)
+    public void Setup(GameController gameController)
     {
         this.gameController = gameController;
     }
@@ -32,7 +31,7 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
         runner = gameObject.AddComponent<NetworkRunner>();
         runner.ProvideInput = true;
     
-        var scene = SceneRef.FromIndex(2);
+        var scene = SceneRef.FromIndex(3);
         var sceneInfo = new NetworkSceneInfo();
         if (scene.IsValid) {
             sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
@@ -110,12 +109,13 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsServer)
         {
             if(runner.ActivePlayers.Count() == 2)
-                runner.LoadScene(SceneRef.FromIndex(2), LoadSceneMode.Single, setActiveOnLoad:true);
+                runner.LoadScene(SceneRef.FromIndex(3), LoadSceneMode.Single, setActiveOnLoad:true);
         }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        Debug.Log("OnPlayerLeft");
         if (spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
         {
             runner.Despawn(networkObject);

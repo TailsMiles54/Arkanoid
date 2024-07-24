@@ -91,10 +91,6 @@ namespace MiniIT.ARKANOID
             {
                 action?.Invoke(GameType.Random);
             });
-            buttonsPool.Get().Setup("Preset", () =>
-            {
-                action?.Invoke(GameType.Preset);
-            });
             buttonsPool.Get().Setup("Back", () =>
             {
                 ChangeMenu(ShowMainMenu);

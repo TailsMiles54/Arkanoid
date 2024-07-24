@@ -43,9 +43,6 @@ namespace MiniIT.ARKANOID
                     CreateRandomBricks();
                     CreateFieldFromRandomBricks();
                     break;
-                case GameType.Preset:
-                    //TODO: generate with preset
-                    break;
             }
 
             photonService.PhotonController.SpawnPlayers(player1SpawnPosition, player2SpawnPosition);

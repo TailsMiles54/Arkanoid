@@ -8,10 +8,10 @@ public class ProjectContext : MonoInstaller
     
     public override void InstallBindings()
     {
+        Container.BindInterfacesAndSelfTo<GameController>().AsCached().NonLazy();
         var photonController = Container.InstantiatePrefabForComponent<PhotonController>(photonControllerPrefab);
 
         Container.BindInterfacesAndSelfTo<PhotonController>().FromInstance(photonController).AsCached().NonLazy();
-        Container.BindInterfacesAndSelfTo<GameController>().AsCached().NonLazy();
         Container.BindInterfacesAndSelfTo<TestSystem>().AsCached().NonLazy();
     }
 }

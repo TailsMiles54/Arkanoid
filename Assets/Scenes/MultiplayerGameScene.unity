@@ -541,6 +541,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 676971703}
+  - component: {fileID: 676971705}
+  - component: {fileID: 676971704}
   m_Layer: 0
   m_Name: BricksParent
   m_TagString: Untagged
@@ -563,6 +565,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1197870443}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &676971704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676971702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2984825813
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 676971705}
+--- !u!114 &676971705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676971702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &829984864
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +911,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1197870443}
   - component: {fileID: 1197870444}
+  - component: {fileID: 1197870446}
+  - component: {fileID: 1197870445}
   m_Layer: 0
   m_Name: GameField
   m_TagString: Untagged
@@ -915,6 +953,41 @@ MonoBehaviour:
   parentTransform: {fileID: 676971703}
   player1SpawnPosition: {x: 0, y: -4, z: 0}
   player2SpawnPosition: {x: 0, y: 2.5, z: 0}
+--- !u!114 &1197870445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197870441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3128223163
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects:
+  - {fileID: 676971704}
+  NetworkedBehaviours:
+  - {fileID: 1197870446}
+--- !u!114 &1197870446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197870441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &1206784172
 GameObject:
   m_ObjectHideFlags: 0

@@ -72,7 +72,7 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
                     spawnPosition = position2;
                 }
                 
-                NetworkObject networkPlayerObject = await runner.SpawnAsync(playerPrefab, spawnPosition, Quaternion.identity, player, async (runner, o) =>
+                NetworkObject networkPlayerObject = await runner.SpawnAsync(playerPrefab, spawnPosition, Quaternion.FromToRotation(spawnPosition, Vector3.zero), player, async (runner, o) =>
                 {
                     var platform = o.GetComponent<MultiplayerPlatformController>();
                     

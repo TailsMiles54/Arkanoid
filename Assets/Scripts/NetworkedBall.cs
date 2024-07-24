@@ -59,7 +59,7 @@ namespace MiniIT.ARKANOID
                 brick.GetDamage();
             }
 
-            if (collision.gameObject.CompareTag("BottomWall"))
+            if (collision.gameObject.CompareTag("BottomWall") || collision.gameObject.CompareTag("TopWall"))
             {
                 StartCoroutine(RespawnBall());
             }

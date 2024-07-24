@@ -6,6 +6,7 @@ using Fusion.Photon.Realtime;
 using Fusion.Sockets;
 using MiniIT.ARKANOID;
 using MiniIT.ARKANOID.Settings;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -62,18 +63,21 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
             if(runner.IsServer)
             {
                 Vector3 spawnPosition = new Vector3();
+                Quaternion spawnQuaternion = new Quaternion();
 
                 Debug.Log(player.AsIndex);
                 if (player.AsIndex == 1)
                 {
                     spawnPosition = position1;
+                    spawnQuaternion = quaternion.identity;
                 }
                 else
                 {
                     spawnPosition = position2;
+                    spawnQuaternion = Quaternion.Euler(0, 0, 180);
                 }
                 
-                NetworkObject networkPlayerObject = await runner.SpawnAsync(playerPrefab, spawnPosition, Quaternion.FromToRotation(spawnPosition, Vector3.zero), player, async (runner, o) =>
+                NetworkObject networkPlayerObject = await runner.SpawnAsync(playerPrefab, spawnPosition, spawnQuaternion, player, async (runner, o) =>
                 {
                     var platform = o.GetComponent<MultiplayerPlatformController>();
                     

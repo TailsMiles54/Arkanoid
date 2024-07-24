@@ -8,6 +8,7 @@ TagManager:
   - asteroid
   - Brick
   - BottomWall
+  - TopWall
   layers:
   - Default
   - TransparentFX

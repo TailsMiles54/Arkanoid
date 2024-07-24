@@ -24,7 +24,7 @@ namespace MiniIT.ARKANOID
             
         }
 
-        public void Exit()
+        public virtual void Exit()
         {
             SceneManager.LoadScene("MenuScene");
         }

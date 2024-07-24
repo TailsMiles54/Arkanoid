@@ -17,6 +17,8 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner                                   runner;
     private Dictionary<PlayerRef, NetworkObject>            spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     private GameController                                  gameController;
+
+    public event Action                                     PlayerLeft;
     
     public void Setup(GameController gameController)
     {
@@ -116,6 +118,8 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log("OnPlayerLeft");
+        PlayerLeft?.Invoke();
+        
         if (spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
         {
             runner.Despawn(networkObject);

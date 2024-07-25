@@ -3,7 +3,7 @@
     "TypeId": "NetworkProjectConfig",
     "PeerMode": 0,
     "LagCompensation": {
-        "Enabled": true,
+        "Enabled": false,
         "HitboxBufferLengthInMs": 200,
         "HitboxDefaultCapacity": 512,
         "CachedStaticCollidersSize": 64
@@ -15,13 +15,13 @@
     "Simulation": {
         "InputDataWordCount": 0,
         "ReplicationFeatures": 1,
-        "InputTransferMode": 0,
+        "InputTransferMode": 2,
         "PlayerCount": 2,
         "TickRateSelection": {
-            "Client": 32,
-            "ServerIndex": 1,
-            "ClientSendIndex": 1,
-            "ServerSendIndex": 1
+            "Client": 128,
+            "ServerIndex": 0,
+            "ClientSendIndex": 0,
+            "ServerSendIndex": 0
         }
     },
     "Network": {

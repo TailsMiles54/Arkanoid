@@ -14,7 +14,7 @@ namespace MiniIT.ARKANOID
         [SerializeField] private Vector3        player2SpawnPosition;
         
         private int[,]                          bricks;
-        private List<Brick>                     bricksOnField;
+        private List<NetworkedBrick>            bricksOnField;
         private GameController                  gameController;
         private PhotonService                   photonService;
         
@@ -29,7 +29,7 @@ namespace MiniIT.ARKANOID
         
         private void Start()
         {
-            bricksOnField = new List<Brick>();
+            bricksOnField = new List<NetworkedBrick>();
             
             if(!photonService.PhotonController.Runner.IsServer)
                 return;
@@ -48,7 +48,7 @@ namespace MiniIT.ARKANOID
             photonService.PhotonController.SpawnPlayers(player1SpawnPosition, player2SpawnPosition);
         }
 
-        public override void BrickDestroyed(Brick brick)
+        public override void BrickDestroyed(NetworkedBrick brick)
         {
             bricksOnField.Remove(brick);
             
@@ -77,7 +77,7 @@ namespace MiniIT.ARKANOID
                         var obj = await runner.SpawnAsync(GameFieldSettings.NetworkBrickPrefab,
                             position, Quaternion.identity, runner.ActivePlayers.First(), (runner, o) =>
                             {
-                                bricksOnField.Add(o.GetComponent<Brick>());
+                                bricksOnField.Add(o.GetComponent<NetworkedBrick>());
                                 o.gameObject.transform.SetParent(parentTransform);
                             });
                         
@@ -128,7 +128,7 @@ namespace MiniIT.ARKANOID
                     await runner.SpawnAsync(GameFieldSettings.NetworkBrickPrefab,
                         position, Quaternion.identity, runner.ActivePlayers.First(), (runner, o) =>
                         {
-                            bricksOnField.Add(o.GetComponent<Brick>());
+                            bricksOnField.Add(o.GetComponent<NetworkedBrick>());
                             o.gameObject.transform.SetParent(parentTransform);
                         });
 

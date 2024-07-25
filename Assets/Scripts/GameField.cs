@@ -116,5 +116,9 @@ namespace MiniIT.ARKANOID
         {
             
         }
+        public virtual void BrickDestroyed(NetworkedBrick networkedBrick)
+        {
+            
+        }
     }
 }

@@ -13,10 +13,19 @@ namespace MiniIT.ARKANOID
         private bool                                                ballIsActive;
         private bool                                                respawned;
         private Vector3                                             ballPosition;
+        private int                                                 playerOwnerId;
 
-        public void Setup(MultiplayerPlatformController platformController)
+        public void Setup(MultiplayerPlatformController platformController, int playerOwnerId)
         {
             this.platformController = platformController;
+            this.playerOwnerId = playerOwnerId;
+            RpcSetBallOwner(playerOwnerId);
+        }
+
+        [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+        public void RpcSetBallOwner(int ballOwnerId)
+        {
+            playerOwnerId = ballOwnerId;
         }
 
         public override void FixedUpdateNetwork()
@@ -45,23 +54,28 @@ namespace MiniIT.ARKANOID
 
         public void Update() 
         {
-            if (respawned)
+            if (Runner.IsServer)
             {
-                transform.position = platformController.GetBallStartPosition();
+                if (respawned)
+                {
+                    transform.position = platformController.GetBallStartPosition();
+                }
             }
         }
         void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log($"Ball Collision {collision.gameObject.name}");
-            if (collision.gameObject.CompareTag("Brick"))
+            if(Runner.IsServer)
             {
-                var brick = collision.gameObject.GetComponent<Brick>();
-                brick.GetDamage();
-            }
+                if (collision.gameObject.CompareTag("Brick"))
+                {
+                    var brick = collision.gameObject.GetComponent<NetworkedBrick>();
+                    brick.GetDamage(playerOwnerId);
+                }
 
-            if (collision.gameObject.CompareTag("BottomWall") || collision.gameObject.CompareTag("TopWall"))
-            {
-                StartCoroutine(RespawnBall());
+                if (collision.gameObject.CompareTag("BottomWall") || collision.gameObject.CompareTag("TopWall"))
+                {
+                    StartCoroutine(RespawnBall());
+                }
             }
         }
 

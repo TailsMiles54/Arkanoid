@@ -83,7 +83,7 @@ public class PhotonController : MonoBehaviour, INetworkRunnerCallbacks
                     
                     await runner.SpawnAsync(SettingsProvider.Get<GameFieldSettings>().NetworkBallPrefab, platform.BallStartPosition, Quaternion.identity, player, async (runner, ball) =>
                     {
-                        ball.GetComponent<NetworkedBall>().Setup(platform);
+                        ball.GetComponent<NetworkedBall>().Setup(platform, player.AsIndex);
                     });
                 });
                 

@@ -145,10 +145,10 @@ GameObject:
   - component: {fileID: 5771058417363705615}
   - component: {fileID: 348391029163797965}
   - component: {fileID: 3508536455444151911}
-  - component: {fileID: -7894263028730270791}
   - component: {fileID: -3166284759588662739}
   - component: {fileID: 3584627540151679646}
   - component: {fileID: -1340852918361036013}
+  - component: {fileID: -7922462012496566757}
   m_Layer: 0
   m_Name: NetworkedBrick
   m_TagString: Brick
@@ -269,19 +269,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
---- !u!114 &-7894263028730270791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4479758845520890470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d8aebb438b461192d0d7cb50f67865, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthTMP: {fileID: 1579246763264437166}
 --- !u!114 &-3166284759588662739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +316,20 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 3584627540151679646}
+  - {fileID: -7922462012496566757}
+--- !u!114 &-7922462012496566757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4479758845520890470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b4900bbc264180a753a858db996feb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthTMP: {fileID: 1579246763264437166}
 --- !u!1 &6330073998921212639
 GameObject:
   m_ObjectHideFlags: 0

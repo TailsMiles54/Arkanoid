@@ -10,7 +10,7 @@ namespace MiniIT.ARKANOID
 
         private int                                  currentScore;
 
-        public override void AddScore(int value)
+        public override void ShowScore(int value)
         {
             currentScore += value;
             scoreTMP.text = $"Score: {currentScore}";
@@ -19,7 +19,11 @@ namespace MiniIT.ARKANOID
 
     public abstract class BaseGameUIController : MonoBehaviour
     {
-        public virtual void AddScore(int value)
+        public virtual void ShowScore(int value)
+        {
+            
+        }
+        public virtual void ShowScore(int ballOwnerId, int value)
         {
             
         }

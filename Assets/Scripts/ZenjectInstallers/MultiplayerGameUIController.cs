@@ -27,13 +27,18 @@ namespace MiniIT.ARKANOID
             SceneManager.LoadScene("MenuScene");
         }
 
-        public override void AddScore(int value)
+        public override void ShowScore(int ballOwnerId, int value)
         {
-            yourcurrentScore += value;
-            yourScore.text = $"Score: {yourcurrentScore}";
-            
-            enemycurrentScore += value;
-            enemyScore.text = $"Score: {enemycurrentScore}";
+            if (ballOwnerId == 0)
+            {
+                yourcurrentScore += value;
+                yourScore.text = $"1 player score: {yourcurrentScore}";
+            }
+            else if (ballOwnerId == 1)
+            {
+                enemycurrentScore += value;
+                enemyScore.text = $"2 player score: {enemycurrentScore}";
+            }
         }
 
         public override void Exit()

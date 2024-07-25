@@ -35,7 +35,7 @@ namespace MiniIT.ARKANOID
 
             if (currentHealth <= 0)
             {
-                gameUIController.AddScore(maxHealth);
+                gameUIController.ShowScore(maxHealth);
                 gameField.BrickDestroyed(this);
                 Destroy(gameObject);
             }

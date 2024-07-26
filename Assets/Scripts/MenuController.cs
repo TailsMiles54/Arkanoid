@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using ExitGames.Client.Photon.StructWrapping;
 using MiniIT.ARKANOID.Settings;
-using ModestTree;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
@@ -19,16 +17,19 @@ namespace MiniIT.ARKANOID
         private ObjectPool<MenuButton>            buttonsPool;
         private Sequence                          menuTransitionSequence;
         private GameController                    gameController;
+        private SoundController                   soundController;
         private List<MenuButton>                  menuButtons;
 
         [Inject]
-        public void Construct(GameController gameController)
+        public void Construct(GameController gameController, SoundController soundController)
         {
             this.gameController = gameController;
+            this.soundController = soundController;
         }
         
         public void Start()
         {
+            soundController.PlayMusic(MusicType.Menu);
             menuButtons = new List<MenuButton>();
             buttonsPool = new ObjectPool<MenuButton>(
                 () =>
@@ -113,6 +114,7 @@ namespace MiniIT.ARKANOID
 
         private void ChangeMenu(Action action)
         {
+            soundController.PlaySoundEffect(SoundType.ButtonClick);
             uiBlocker.SetActive(true);
             menuTransitionSequence = DOTween.Sequence();
             
@@ -127,6 +129,7 @@ namespace MiniIT.ARKANOID
 
                 action.Invoke();
                 uiBlocker.SetActive(false);
+                soundController.PlaySoundEffect(SoundType.MenuSwipe);
             });
             menuTransitionSequence.Append(buttonsParent.DOLocalMoveX(0, 0.4f));
         }

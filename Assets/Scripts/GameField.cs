@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
+using UnityEngine.Pool;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -9,24 +10,36 @@ namespace MiniIT.ARKANOID
 {
     public class GameField : MonoBehaviour
     {
-        [SerializeField] private Transform      parentTransform;
-        
-        private int[,]                          bricks;
-        private List<Brick>                     _bricksOnField;
-        
-        private GameFieldSettings               GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
-
-        private GameController                  gameController;
+        [SerializeField] private Transform          parentTransform;
+            
+        private int[,]                              bricks;
+            
+        private GameFieldSettings                   GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
+    
+        private GameController                      gameController;
+        private SoundController                     soundController;
+        private ObjectPool<Brick>                   bricksPool;
         
         [Inject]
-        private void Construct(GameController gameController)
+        private void Construct(GameController gameController, SoundController soundController)
         {
             this.gameController = gameController;
+            this.soundController = soundController;
         }
         
         private void Start()
         {
-            _bricksOnField = new List<Brick>();
+            bricksPool = new ObjectPool<Brick>(
+                () =>
+                {
+                    Brick brick = Instantiate(GameFieldSettings.BrickPrefab, parentTransform);
+                    return brick;
+                },
+                button => {button.gameObject.SetActive(true);},
+                button => {button.gameObject.SetActive(false);},
+                button => {Destroy(button.gameObject);});
+            
+            soundController.PlayMusic(MusicType.InGame);
             switch (gameController.GameType)
             {
                 case GameType.Full:
@@ -36,17 +49,12 @@ namespace MiniIT.ARKANOID
                     CreateRandomBricks();
                     CreateFieldFromRandomBricks();
                     break;
-                case GameType.Preset:
-                    //TODO: generate with preset
-                    break;
             }
         }
 
         public void BrickDestroyed(Brick brick)
         {
-            _bricksOnField.Remove(brick);
-            
-            //TODO: check bricks count
+            bricksPool.Release(brick);
         }
         
         /// <summary>
@@ -66,8 +74,7 @@ namespace MiniIT.ARKANOID
                             i * (brickLocalScale.y + GameFieldSettings.Spacing) - GameFieldSettings.Rows * (brickLocalScale.y + GameFieldSettings.Spacing) / 2.0f,
                             0);
                         
-                        var brick = Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
-                        _bricksOnField.Add(brick);
+                        bricksPool.Get().transform.SetPositionAndRotation(position, Quaternion.identity);
                     }
                 }
             }
@@ -108,7 +115,7 @@ namespace MiniIT.ARKANOID
                         i * (brickLocalScale.y + GameFieldSettings.Spacing) - halfHeight,
                         0);
                     
-                    Instantiate(GameFieldSettings.BrickPrefab, position, Quaternion.identity, parentTransform);
+                    bricksPool.Get().transform.SetPositionAndRotation(position, Quaternion.identity);
                 }
             }
         }

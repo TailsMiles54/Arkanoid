@@ -7,12 +7,12 @@ namespace MiniIT.ARKANOID
 {
     public class Brick : MonoBehaviour
     {
-        [SerializeField] private TMP_Text       healthTMP; 
-        
-        private int                             maxHealth;
-        private int                             currentHealth;
-        private GameUIController                gameUIController;
-        private GameField                       gameField;
+        [SerializeField] private TMP_Text               healthTMP; 
+                
+        private int                                     maxHealth;
+        private int                                     currentHealth;
+        private GameUIController                        gameUIController;
+        private GameField                               gameField;
         
         [Inject]
         public void Construct(GameUIController gameUIController, GameField gameField)

@@ -13,6 +13,13 @@ namespace MiniIT.ARKANOID
         private bool                                    ballIsActive;
         private bool                                    respawned;
         private Vector3                                 ballPosition;
+        private SoundController                         soundController;
+
+        [Inject]
+        public void Construct(SoundController soundController)
+        {
+            this.soundController = soundController;
+        }
         
         private void Start () 
         {
@@ -30,6 +37,7 @@ namespace MiniIT.ARKANOID
             {
                 if (!ballIsActive)
                 {
+                    soundController.PlaySoundEffect(SoundType.BallStart);
                     rigidbody2D.AddForce(SettingsProvider.Get<BallSettings>().StartBallVector);
                     ballIsActive = !ballIsActive;
                 }
@@ -49,6 +57,7 @@ namespace MiniIT.ARKANOID
             {
                 var brick = collision.gameObject.GetComponent<Brick>();
                 brick.GetDamage();
+                soundController.PlaySoundEffect(SoundType.BrickHit);
             }
 
             if (collision.gameObject.CompareTag("BottomWall"))

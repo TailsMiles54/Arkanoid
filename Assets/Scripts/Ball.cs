@@ -14,11 +14,13 @@ namespace MiniIT.ARKANOID
         private bool                                    respawned;
         private Vector3                                 ballPosition;
         private SoundController                         soundController;
+        private GameUIController                        gameUIController;
 
         [Inject]
-        public void Construct(SoundController soundController)
+        public void Construct(SoundController soundController, GameUIController gameUIController)
         {
             this.soundController = soundController;
+            this.gameUIController = gameUIController;
         }
         
         private void Start () 
@@ -62,21 +64,9 @@ namespace MiniIT.ARKANOID
 
             if (collision.gameObject.CompareTag("BottomWall"))
             {
-                StartCoroutine(RespawnBall());
+                gameUIController.ShowLosePopup();
+                Destroy(gameObject);
             }
-        }
-
-        private IEnumerator RespawnBall()
-        {
-            rigidbody2D.bodyType = RigidbodyType2D.Static;
-            transform.position = platformController.GetBallStartPosition();
-            respawned = true;
-            
-            yield return new WaitForSeconds(SettingsProvider.Get<BallSettings>().BallRespawnTime);
-            
-            respawned = false;
-            rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-            rigidbody2D.AddForce(SettingsProvider.Get<BallSettings>().StartBallVector);
         }
     }
 }

@@ -18,13 +18,15 @@ namespace MiniIT.ARKANOID
     
         private GameController                      gameController;
         private SoundController                     soundController;
+        private GameUIController                    gameUIController;
         private ObjectPool<Brick>                   bricksPool;
         
         [Inject]
-        private void Construct(GameController gameController, SoundController soundController)
+        private void Construct(GameController gameController, SoundController soundController, GameUIController gameUIController)
         {
             this.gameController = gameController;
             this.soundController = soundController;
+            this.gameUIController = gameUIController;
         }
         
         private void Start()
@@ -55,6 +57,11 @@ namespace MiniIT.ARKANOID
         public void BrickDestroyed(Brick brick)
         {
             bricksPool.Release(brick);
+
+            if (bricksPool.CountActive == 0)
+            {
+                gameUIController.ShowWinPopup();
+            }
         }
         
         /// <summary>

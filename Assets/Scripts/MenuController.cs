@@ -61,7 +61,7 @@ namespace MiniIT.ARKANOID
                 {
                     ShowGameTypeMenu(() => SceneManager.LoadScene("MultiplayerGameScene"));
                 });
-            });
+            }, false);
             buttonsPool.Get().Setup("Settings", () =>
             {
                 ChangeMenu(ShowSettingsMenu);
@@ -85,7 +85,7 @@ namespace MiniIT.ARKANOID
             {
                 gameController.ChangeGameType(GameType.Preset);
                 action?.Invoke();
-            });
+            }, false);
             buttonsPool.Get().Setup("Back", () =>
             {
                 ChangeMenu(ShowMainMenu);

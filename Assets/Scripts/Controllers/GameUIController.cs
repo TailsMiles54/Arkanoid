@@ -1,4 +1,5 @@
 ﻿using MiniIT.ARKANOID.Settings;
+using MiniIT.ARKANOID.UIElements;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;

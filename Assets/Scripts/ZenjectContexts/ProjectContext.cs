@@ -1,14 +1,16 @@
-using System.Collections;
 using MiniIT.ARKANOID.Controllers;
 using UnityEngine;
 using Zenject;
 
-public class ProjectContext : MonoInstaller
+namespace MiniIT.ARKANOID.ZenjectContexts
 {
-    [SerializeField] private SoundController            soundControllerPrefab; 
-    public override void InstallBindings()
+    public class ProjectContext : MonoInstaller
     {
-        Container.BindInterfacesAndSelfTo<GameController>().AsCached().NonLazy();
-        Container.BindInterfacesAndSelfTo<SoundController>().FromComponentInNewPrefab(soundControllerPrefab).AsSingle().NonLazy();
+        [SerializeField] private SoundController            soundControllerPrefab; 
+        public override void InstallBindings()
+        {
+            Container.BindInterfacesAndSelfTo<GameController>().AsCached().NonLazy();
+            Container.BindInterfacesAndSelfTo<SoundController>().FromComponentInNewPrefab(soundControllerPrefab).AsSingle().NonLazy();
+        }
     }
 }

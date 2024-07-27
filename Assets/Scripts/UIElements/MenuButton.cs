@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.UIElements
 {
     public class MenuButton : MonoBehaviour
     {

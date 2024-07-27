@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MiniIT.ARKANOID.Enums;
 using MiniIT.ARKANOID.Settings;
+using MiniIT.ARKANOID.UIElements;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;

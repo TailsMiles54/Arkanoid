@@ -1,10 +1,9 @@
-﻿using System;
-using MiniIT.ARKANOID.Settings;
+﻿using MiniIT.ARKANOID.Settings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.UIElements
 {
     public class DefaultPopup : Popup<DefaultPopupSettings>
     {

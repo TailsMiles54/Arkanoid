@@ -1,15 +1,15 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.UIElements
 {
     public class PopupButton : MonoBehaviour, IPopupButton<PopupButtonSettings>
     {
         [SerializeField] private TMP_Text            title;
         private Action                               action;
         
+        #region IPopupButton
         public void Setup(PopupButtonSettings settings)
         {
             title.text = settings.Text;
@@ -20,6 +20,7 @@ namespace MiniIT.ARKANOID
         {
             action?.Invoke();
         }
+        #endregion
     }
     
     public class PopupButtonSettings : BasePopupButtonSetting

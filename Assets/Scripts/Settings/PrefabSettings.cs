@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MiniIT.ARKANOID.UIElements;
 using UnityEngine;
 
 namespace MiniIT.ARKANOID.Settings

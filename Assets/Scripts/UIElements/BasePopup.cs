@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.UIElements
 {
     public class BasePopup : MonoBehaviour
     {

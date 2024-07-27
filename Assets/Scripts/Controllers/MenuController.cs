@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using MiniIT.ARKANOID.Enums;
+using MiniIT.ARKANOID.Save;
 using MiniIT.ARKANOID.Settings;
 using MiniIT.ARKANOID.UIElements;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
@@ -13,24 +15,29 @@ namespace MiniIT.ARKANOID.Controllers
 {
     public class MenuController : MonoBehaviour
     {
-        [SerializeField] private Transform        buttonsParent;
-        [SerializeField] private GameObject       uiBlocker;
-        
-        private ObjectPool<MenuButton>            buttonsPool;
-        private Sequence                          menuTransitionSequence;
-        private GameController                    gameController;
-        private SoundController                   soundController;
-        private List<MenuButton>                  menuButtons = null;
+        [SerializeField] private Transform          buttonsParent;
+        [SerializeField] private GameObject         uiBlocker;
+        [SerializeField] private TMP_Text           maxScoreTMP;
+            
+        private ObjectPool<MenuButton>              buttonsPool;
+        private Sequence                            menuTransitionSequence;
+        private GameController                      gameController;
+        private SoundController                     soundController;
+        private ISaveManager                        saveManager;
+        private List<MenuButton>                    menuButtons = null;
 
         [Inject]
-        public void Construct(GameController gameController, SoundController soundController)
+        public void Construct(GameController gameController, SoundController soundController, ISaveManager saveManager)
         {
             this.gameController = gameController;
             this.soundController = soundController;
+            this.saveManager = saveManager;
         }
         
-        public void Start()
+        public async void Start()
         {
+            await saveManager.CheckSave();
+            
             soundController.PlayMusic(MusicType.Menu);
             menuButtons = new List<MenuButton>();
             buttonsPool = new ObjectPool<MenuButton>(
@@ -46,6 +53,8 @@ namespace MiniIT.ARKANOID.Controllers
             
             ShowMainMenu();
             menuButtons.Reverse();
+            
+            maxScoreTMP.text = $"Max score: {await saveManager.GetMaxScore()}";
         }
 
         private void ShowMainMenu()
@@ -98,7 +107,7 @@ namespace MiniIT.ARKANOID.Controllers
         {
             buttonsPool.Get().Setup("Sound on\\off", () =>
             {
-                gameController.ChangeSoundState();
+                soundController.SoundStateChange();
             });
             buttonsPool.Get().Setup("My Telegram", () =>
             {
@@ -124,7 +133,7 @@ namespace MiniIT.ARKANOID.Controllers
             menuTransitionSequence.AppendCallback(() =>
             {
                 buttonsParent.localPosition = new Vector3(-1500, 0, 0);
-                foreach (var menuButton in menuButtons)
+                foreach (MenuButton menuButton in menuButtons)
                 {
                     buttonsPool.Release(menuButton);   
                 }

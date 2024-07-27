@@ -15,8 +15,8 @@ namespace MiniIT.ARKANOID.Controllers
         {
             if(currentPopup == null)
             {
-                var popupPrefab = SettingsProvider.Get<PrefabSettings>().GetPopup<Popup<T>>();
-                var instance = Instantiate(popupPrefab, popupParent, false);
+                Popup<T> popupPrefab = SettingsProvider.Get<PrefabSettings>().GetPopup<Popup<T>>();
+                Popup<T> instance = Instantiate(popupPrefab, popupParent, false);
                 instance.Setup(settings);
                 currentPopup = instance;
                 background.SetActive(true);

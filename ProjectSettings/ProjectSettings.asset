@@ -44,8 +44,8 @@ PlayerSettings:
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1920
   defaultScreenHeight: 1080
-  defaultScreenWidthWeb: 960
-  defaultScreenHeightWeb: 600
+  defaultScreenWidthWeb: 1080
+  defaultScreenHeightWeb: 1920
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 0
   unsupportedMSAAFallback: 0
@@ -777,7 +777,7 @@ PlayerSettings:
   webGLWasmArithmeticExceptions: 0
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
-  webGLDecompressionFallback: 0
+  webGLDecompressionFallback: 1
   webGLInitialMemorySize: 32
   webGLMaximumMemorySize: 2048
   webGLMemoryGrowthMode: 2
@@ -798,7 +798,7 @@ PlayerSettings:
     Stadia: INPUT_SYSTEM_PACKAGE;DOTWEEN
     Standalone: INPUT_SYSTEM_PACKAGE;FUSION_WEAVER;FUSION2;DOTWEEN
     VisionOS: DOTWEEN
-    WebGL: INPUT_SYSTEM_PACKAGE;DOTWEEN;FUSION_WEAVER;FUSION2
+    WebGL: INPUT_SYSTEM_PACKAGE;DOTWEEN
     Windows Store Apps: INPUT_SYSTEM_PACKAGE;DOTWEEN
     XboxOne: INPUT_SYSTEM_PACKAGE;DOTWEEN
     iPhone: INPUT_SYSTEM_PACKAGE;DOTWEEN
@@ -910,14 +910,14 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 62102028-41d7-4243-8ad0-87f2d742d666
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Arkanoid
+  organizationId: tailsmiles
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
   platformRequiresReadableAssets: 0
   virtualTexturingSupportEnabled: 0
-  insecureHttpOption: 0
+  insecureHttpOption: 2

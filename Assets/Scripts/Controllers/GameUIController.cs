@@ -1,4 +1,5 @@
-﻿using MiniIT.ARKANOID.Settings;
+﻿using MiniIT.ARKANOID.Save;
+using MiniIT.ARKANOID.Settings;
 using MiniIT.ARKANOID.UIElements;
 using TMPro;
 using UnityEngine;
@@ -9,15 +10,17 @@ namespace MiniIT.ARKANOID.Controllers
 {
     public class GameUIController : MonoBehaviour
     {
-        [SerializeField] private TMP_Text            scoreTMP;
-
-        private int                                  currentScore = 0;
-        private PopupSystem                          popupSystem;
+        [SerializeField] private TMP_Text               scoreTMP;
+    
+        private int                                     currentScore = 0;
+        private PopupSystem                             popupSystem;
+        private ISaveManager                            saveManager;
 
         [Inject]
-        public void Construct(PopupSystem popupSystem)
+        public void Construct(PopupSystem popupSystem, ISaveManager saveManager)
         {
             this.popupSystem = popupSystem;
+            this.saveManager = saveManager;
         }
         
         public void AddScore(int value)
@@ -31,8 +34,9 @@ namespace MiniIT.ARKANOID.Controllers
             SceneManager.LoadScene("MenuScene");
         }
 
-        public void ShowLosePopup()
+        public async void ShowLosePopup()
         {
+            await saveManager.SaveMaxScore(currentScore);
             popupSystem.ShowPopup(new DefaultPopupSettings()
             {
                 Title = "Game Over",
@@ -48,8 +52,9 @@ namespace MiniIT.ARKANOID.Controllers
             });
         }
 
-        public void ShowWinPopup()
+        public async void ShowWinPopup()
         {
+            await saveManager.SaveMaxScore(currentScore);
             popupSystem.ShowPopup(new DefaultPopupSettings()
             {
                 Title = "Congratulations!",

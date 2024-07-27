@@ -58,7 +58,7 @@ namespace MiniIT.ARKANOID.Gameplay
             Debug.Log($"Ball Collision {collision.gameObject.name}");
             if (collision.gameObject.CompareTag("Brick"))
             {
-                var brick = collision.gameObject.GetComponent<Brick>();
+                Brick brick = collision.gameObject.GetComponent<Brick>();
                 brick.GetDamage();
                 soundController.PlaySoundEffect(SoundType.BrickHit);
             }

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1d7490adeb6d84584d6f6cf385f301, type: 3}
   m_Name: SettingsProvider
   m_EditorClassIdentifier: 
-  _settingsList:
+  settingsList:
+  - {fileID: 11400000, guid: f251ccaa6f705244d81e97e4ab85c56a, type: 2}
   - {fileID: 11400000, guid: b55eb58a221108a41a1497a82027ab57, type: 2}
   - {fileID: 11400000, guid: 9998d3b69d8b71a45ade4c59b2000ab1, type: 2}
   - {fileID: 11400000, guid: a462433ef7426c24cbe5a6680b8c5b00, type: 2}
   - {fileID: 11400000, guid: 00e94f2fb5afead489014ff06b9fd444, type: 2}
-  - {fileID: 11400000, guid: f251ccaa6f705244d81e97e4ab85c56a, type: 2}

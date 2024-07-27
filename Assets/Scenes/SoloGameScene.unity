@@ -1080,8 +1080,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec7daee0e9953b4580ffd1c47800d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _background: {fileID: 1017152080}
-  _popupParent: {fileID: 858750816}
+  background: {fileID: 1017152080}
+  popupParent: {fileID: 858750816}
 --- !u!1 &989120813
 GameObject:
   m_ObjectHideFlags: 0

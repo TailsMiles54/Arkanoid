@@ -31,4 +31,5 @@ https://t.me/Arcanoidminitest_bot
 ![App Screenshot](https://i.imgur.com/3zgCjwQ.png)
 ![App Screenshot](https://i.imgur.com/SR2RvMs.png)
 ![App Screenshot](https://i.imgur.com/aaF1Q61.png)
+![App Screenshot](https://i.imgur.com/rZOoasU.png)
 

@@ -1,5 +1,5 @@
 ﻿using MiniIT.ARKANOID.Enums;
-using MiniIT.ARKANOID.Settings;
+using MiniIT.ARKANOID.Save;
 using UnityEngine;
 using Zenject;
 using AudioSettings = MiniIT.ARKANOID.Settings.AudioSettings;
@@ -11,38 +11,36 @@ namespace MiniIT.ARKANOID.Controllers
         [SerializeField] private AudioSource            audioSource;
         [SerializeField] private AudioSource            musicSource;
 
-        private GameController                          gameController;
+        private ISaveManager                            saveManager;
     
         [Inject]
-        public void Construct(GameController gameController)
+        public void Construct(ISaveManager saveManager)
         {
-            this.gameController = gameController;
-            gameController.SoundStateChanged += SoundStateChanged;
+            this.saveManager = saveManager;
         }
 
-        public void PlaySoundEffect(SoundType soundType)
+        public async void PlaySoundEffect(SoundType soundType)
         {
-            audioSource.mute = gameController.SoundEnabled;
+            audioSource.mute = !await saveManager.GetSoundState();
             audioSource.PlayOneShot(SettingsProvider.Get<AudioSettings>().GetSoundEffect(soundType));
         }
 
-        public void PlayMusic(MusicType musicType)
+        public async void PlayMusic(MusicType musicType)
         {
             musicSource.Stop();
             musicSource.clip = SettingsProvider.Get<AudioSettings>().GetMusic(musicType);
-            musicSource.mute = gameController.SoundEnabled;
+            musicSource.mute = !await saveManager.GetSoundState();
             musicSource.Play();
         }
 
-        private void SoundStateChanged()
+        public async void SoundStateChange()
         {
-            audioSource.mute = gameController.SoundEnabled;
-            musicSource.mute = gameController.SoundEnabled;
-        }
+            bool currentSoundState = await saveManager.GetSoundState();
 
-        ~SoundController()
-        {
-            gameController.SoundStateChanged -= SoundStateChanged;
+            await saveManager.SaveSoundState(!currentSoundState);
+            
+            audioSource.mute = !await saveManager.GetSoundState();
+            musicSource.mute = !await saveManager.GetSoundState();
         }
     }
 }

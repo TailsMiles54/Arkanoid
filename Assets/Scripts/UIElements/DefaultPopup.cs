@@ -20,9 +20,9 @@ namespace MiniIT.ARKANOID.UIElements
             iconImage.gameObject.SetActive(settings.Icon!= null);
             iconImage.sprite = settings.Icon;
 
-            foreach (var buttonSetting in settings.Buttons)
+            foreach (PopupButtonSettings buttonSetting in settings.Buttons)
             {
-                var button = Instantiate(SettingsProvider.Get<PrefabSettings>().PopupButton, buttonParent);
+                PopupButton button = Instantiate(SettingsProvider.Get<PrefabSettings>().PopupButton, buttonParent);
                 button.Setup(buttonSetting);
             }
         }

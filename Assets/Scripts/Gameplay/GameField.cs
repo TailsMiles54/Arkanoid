@@ -74,7 +74,7 @@ namespace MiniIT.ARKANOID.Gameplay
                 {
                     if (bricks[i, j] > 0)
                     {
-                        var brickLocalScale = GameFieldSettings.BrickPrefab.transform.localScale;
+                        Vector3 brickLocalScale = GameFieldSettings.BrickPrefab.transform.localScale;
                         Vector3 position = new Vector3(
                             j * (brickLocalScale.x + GameFieldSettings.Spacing) - GameFieldSettings.Columns * (brickLocalScale.x + GameFieldSettings.Spacing) / 2.0f + 0.15f,
                             i * (brickLocalScale.y + GameFieldSettings.Spacing) - GameFieldSettings.Rows * (brickLocalScale.y + GameFieldSettings.Spacing) / 2.0f,
@@ -108,7 +108,7 @@ namespace MiniIT.ARKANOID.Gameplay
         /// </summary>
         private void CreateBricksWithSpacingAroundTheParent()
         {
-            var brickLocalScale = GameFieldSettings.BrickPrefab.transform.localScale;
+            Vector3 brickLocalScale = GameFieldSettings.BrickPrefab.transform.localScale;
             float halfWidth = GameFieldSettings.Columns * (brickLocalScale.x + GameFieldSettings.Spacing) / 2.0f;
             float halfHeight = GameFieldSettings.Rows * (brickLocalScale.y + GameFieldSettings.Spacing) / 2.0f;
             

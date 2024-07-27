@@ -20,9 +20,9 @@ Zenject
 
 ## Screenshots
 
-![App Screenshot](https://imgur.com/3zgCjwQ)
-![App Screenshot](https://imgur.com/SR2RvMs)
-![App Screenshot](https://imgur.com/aaF1Q61)
+![App Screenshot](https://i.imgur.com/3zgCjwQ.png)
+![App Screenshot](https://i.imgur.com/SR2RvMs.png)
+![App Screenshot](https://i.imgur.com/aaF1Q61.png)
 
 
 ## Demo

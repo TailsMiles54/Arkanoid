@@ -1,17 +1,18 @@
-using System.Collections;
+using MiniIT.ARKANOID.Controllers;
+using MiniIT.ARKANOID.Enums;
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 using Zenject;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.Gameplay
 {
     public class Ball : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D            rigidbody2D;
         [SerializeField] private PlatformController     platformController;
         
-        private bool                                    ballIsActive;
-        private bool                                    respawned;
+        private bool                                    ballIsActive = false;
+        private bool                                    respawned = false;
         private Vector3                                 ballPosition;
         private SoundController                         soundController;
         private GameUIController                        gameUIController;
@@ -23,12 +24,12 @@ namespace MiniIT.ARKANOID
             this.gameUIController = gameUIController;
         }
         
-        private void Start () 
+        private void Start() 
         {
             ballPosition = platformController.GetBallStartPosition();
         }
         
-        public void Update () 
+        public void Update() 
         {
             if (respawned)
             {

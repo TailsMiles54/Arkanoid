@@ -10,12 +10,13 @@ namespace MiniIT.ARKANOID.Settings
     {
         [SerializeField] private List<MonoBehaviour>        prefabs;
 
-        [Space (50), Header("UI")]
+        [Space (25), Header("UI")]
         [SerializeField] private List<BasePopup>            popups;
         [SerializeField] private PopupButton                popupButton;
 
         public PopupButton                                  PopupButton => popupButton;
 
+        
         public T Get<T>() where T : MonoBehaviour
         {
             try

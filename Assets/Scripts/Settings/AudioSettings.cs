@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MiniIT.ARKANOID.Enums;
 using UnityEngine;
 
 namespace MiniIT.ARKANOID.Settings
@@ -29,24 +30,10 @@ namespace MiniIT.ARKANOID.Settings
         public AudioClip            AudioClip;
     }
 
-    public enum SoundType
-    {
-        BallStart,
-        BrickHit,
-        ButtonClick,
-        MenuSwipe,
-    }
-
     [Serializable]
     public struct MusicSetting
     {
         public MusicType            SoundType;
         public AudioClip            AudioClip;
-    }
-
-    public enum MusicType
-    {
-        Menu,
-        InGame
     }
 }

@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using MiniIT.ARKANOID.Enums;
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.Controllers
 {
     public class MenuController : MonoBehaviour
     {
@@ -18,7 +19,7 @@ namespace MiniIT.ARKANOID
         private Sequence                          menuTransitionSequence;
         private GameController                    gameController;
         private SoundController                   soundController;
-        private List<MenuButton>                  menuButtons;
+        private List<MenuButton>                  menuButtons = null;
 
         [Inject]
         public void Construct(GameController gameController, SoundController soundController)

@@ -1,19 +1,20 @@
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.Controllers
 {
     public class PlatformController : MonoBehaviour
     {
-        private Vector3                             playerPosition;
         [SerializeField] private Transform          ballStartPosition;
+        
+        private Vector3                             playerPosition;
      
-        void Start () 
+        void Start() 
         {
             playerPosition = gameObject.transform.position;
         }
 
-        void Update ()
+        void Update()
         {
             MoveToTouch();
         }

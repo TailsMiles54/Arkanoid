@@ -1,25 +1,24 @@
-using System;
-using System.Collections.Generic;
+using MiniIT.ARKANOID.Controllers;
+using MiniIT.ARKANOID.Enums;
 using MiniIT.ARKANOID.Settings;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.Gameplay
 {
     public class GameField : MonoBehaviour
     {
         [SerializeField] private Transform          parentTransform;
             
-        private int[,]                              bricks;
-            
-        private GameFieldSettings                   GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
-    
+        private int[,]                              bricks = null;
         private GameController                      gameController;
         private SoundController                     soundController;
         private GameUIController                    gameUIController;
         private ObjectPool<Brick>                   bricksPool;
+            
+        private GameFieldSettings                   GameFieldSettings => SettingsProvider.Get<GameFieldSettings>();
         
         [Inject]
         private void Construct(GameController gameController, SoundController soundController, GameUIController gameUIController)

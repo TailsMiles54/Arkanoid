@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MiniIT.ARKANOID.Gameplay;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace MiniIT.ARKANOID.Settings

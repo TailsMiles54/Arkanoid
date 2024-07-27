@@ -1,16 +1,17 @@
-﻿using MiniIT.ARKANOID.Settings;
+﻿using MiniIT.ARKANOID.Controllers;
+using MiniIT.ARKANOID.Settings;
 using TMPro;
 using UnityEngine;
 using Zenject;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.Gameplay
 {
     public class Brick : MonoBehaviour
     {
         [SerializeField] private TMP_Text               healthTMP; 
                 
-        private int                                     maxHealth;
-        private int                                     currentHealth;
+        private int                                     maxHealth = 0;
+        private int                                     currentHealth = 0;
         private GameUIController                        gameUIController;
         private GameField                               gameField;
         

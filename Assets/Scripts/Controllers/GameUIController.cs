@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace MiniIT.ARKANOID
+namespace MiniIT.ARKANOID.Controllers
 {
     public class GameUIController : MonoBehaviour
     {
         [SerializeField] private TMP_Text            scoreTMP;
 
-        private int                                  currentScore;
+        private int                                  currentScore = 0;
         private PopupSystem                          popupSystem;
 
         [Inject]

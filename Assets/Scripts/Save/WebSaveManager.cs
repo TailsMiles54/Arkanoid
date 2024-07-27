@@ -20,7 +20,6 @@ namespace MiniIT.ARKANOID.Save
 #region ISaveManager
         public Task CheckSave()
         {
-            CheckOrCreateSaveDataFile();
             return Task.CompletedTask;
         }
 
@@ -38,11 +37,10 @@ namespace MiniIT.ARKANOID.Save
 
         public Task<int> GetMaxScore()
         {
-            Dictionary<string, object> userData = LoadFromJsonFile();
-        
-            if (userData.TryGetValue("max_score", out var value))
+            if (PlayerPrefs.HasKey("max_score"))
             {
-                return Task.FromResult(Convert.ToInt32(value));
+                string data = PlayerPrefs.GetString("max_score");
+                return Task.FromResult(Convert.ToInt32(data));
             }
         
             AddDataToSave("max_score", 0);
@@ -52,11 +50,10 @@ namespace MiniIT.ARKANOID.Save
 
         public Task<bool> GetSoundState()
         {
-            Dictionary<string, object> userData = LoadFromJsonFile();
-        
-            if (userData.TryGetValue("sound_active", out var value))
+            if (PlayerPrefs.HasKey("sound_active"))
             {
-                return Task.FromResult(Convert.ToBoolean(value));
+                string data = PlayerPrefs.GetString("sound_active");
+                return Task.FromResult(Convert.ToBoolean(data));
             }
         
             AddDataToSave("sound_active", true);
@@ -67,35 +64,8 @@ namespace MiniIT.ARKANOID.Save
 
         private void AddDataToSave(string key, object value)
         {
-            Dictionary<string, object> currentData = LoadFromJsonFile();
-
-            if (!currentData.TryAdd(key, value))
-            {
-                currentData[key] = value;
-            }
-        
-            SaveToJsonFile(currentData);
-        }
-
-        private void SaveToJsonFile(Dictionary<string, object> saveData)
-        {
-            string jsonString = JsonConvert.SerializeObject(saveData);
-            File.WriteAllText(Application.persistentDataPath + "/save_data.json", jsonString);
-        }
-
-        private Dictionary<string, object> LoadFromJsonFile()
-        {
-            string jsonString = File.ReadAllText(Application.persistentDataPath + "/save_data.json");
-            return JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
-        }
-
-        private void CheckOrCreateSaveDataFile()
-        {
-            string filePath = Application.persistentDataPath + "/save_data.json";
-            if (!File.Exists(filePath))
-            {
-                File.WriteAllText(filePath, "{}");
-            }
+            string jsonString = JsonConvert.SerializeObject(value);
+            PlayerPrefs.SetString(key, jsonString);
         }
     }
 }

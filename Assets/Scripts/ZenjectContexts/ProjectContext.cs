@@ -2,6 +2,7 @@ using MiniIT.ARKANOID.Controllers;
 using MiniIT.ARKANOID.Controllers.Auth;
 using MiniIT.ARKANOID.Save;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace MiniIT.ARKANOID.ZenjectContexts

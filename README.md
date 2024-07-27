@@ -28,4 +28,4 @@ Zenject
 ## Demo
 
 Есть веб билд доступный напрямую из телеграм бота 
-
+https://t.me/Arcanoidminitest_bot

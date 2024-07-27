@@ -9,8 +9,8 @@ namespace MiniIT.ARKANOID.Settings
         [SerializeField] private int                brickHealthRangeMin;
         [SerializeField] private int                brickHealthRangeMax;
         [SerializeField] private Brick              brickPrefab;
-        [SerializeField] private int                rows;
-        [SerializeField] private int                columns;
+        [SerializeField, Range(1,19)] private int   rows;
+        [SerializeField, Range(1,19)] private int   columns;
         [SerializeField] private float              spacing;
         [SerializeField] private Sprite             winSprite;
         
